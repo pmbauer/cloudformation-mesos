@@ -335,14 +335,25 @@
       }
     },
 
+    "SlaveToSlaveIngress": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": { "Ref": "SecurityGroup" },
+        "IpProtocol": "-1",
+        "FromPort": "0",
+        "ToPort": "65535",
+        "SourceSecurityGroupId": { "Ref": "SecurityGroup" }
+        }
+    },
+
     "MasterToSlaveIngress" : {
       "Type" : "AWS::EC2::SecurityGroupIngress",
       "Condition" : "GrantNetworkAccess",
       "Properties" : {
         "GroupId" : { "Ref" : "SecurityGroup" },
-        "IpProtocol" : "tcp",
-        "FromPort" : "5051",
-        "ToPort" : "5051",
+        "IpProtocol" : "-1",
+        "FromPort" : "0",
+        "ToPort" : "65535",
         "SourceSecurityGroupId" : { "Ref" : "MesosMasterSecurityGroup" }
       }
     },
@@ -352,9 +363,9 @@
       "Condition" : "GrantNetworkAccess",
       "Properties" : {
         "GroupId" : { "Ref" : "MesosMasterSecurityGroup" },
-        "IpProtocol" : "tcp",
-        "FromPort" : "5050",
-        "ToPort" : "5050",
+        "IpProtocol" : "-1",
+        "FromPort" : "0",
+        "ToPort" : "65535",
         "SourceSecurityGroupId" : { "Ref" : "SecurityGroup" }
       }
     }
