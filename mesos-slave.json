@@ -279,6 +279,10 @@
           "cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r LaunchConfig ",
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
+          "# Set host\n",
+          "hostname `ec2metadata --local-ipv4`\n",
+          "echo `ec2metadata --local-ipv4` > /etc/hostname\n",
+
           "# Move docker dir to bigger device\n",
           "service docker stop\n",
           "mv /var/lib/docker /mnt/docker\n",
