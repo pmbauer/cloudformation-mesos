@@ -218,7 +218,7 @@
                 "content" : { "Fn::Join" : ["\n", [
                   "#!/bin/bash -e",
                   "echo \"zk://`/usr/local/bin/zk-list-nodes`/{{mesos_cluster_id}}\" > /etc/sv/mesos-master/env/MESOS_ZK",
-                  "echo \"`/usr/bin/ec2metadata --public-hostname`\" > /etc/sv/mesos-master/env/MESOS_HOSTNAME",
+                  "echo \"`/usr/bin/ec2metadata --local-ipv4`\" > /etc/sv/mesos-master/env/MESOS_HOSTNAME"
                 ]]},
                 "context" : {
                   "mesos_cluster_id": { "Ref": "ClusterId" }
@@ -313,7 +313,7 @@
           "     --zk zk://`zk-list-nodes`/", { "Ref": "ClusterId" }, "_marathon",
           "     --event_subscriber http_callback",
           "     --ha",
-          "     --hostname `ec2metadata --public-hostname`'\n",
+          "     --hostname `ec2metadata --local-ipv4`'\n",
 
           "runit-service enable marathon\n",
 
