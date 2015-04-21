@@ -66,11 +66,6 @@
       "Type" : "Number",
       "Default" : "1"
     },
-    "MasterQuorumCount" : {
-      "Description" : "Number of masters needed for Mesos replicated log registry quorum (should be ceiling(<MasterInstanceCount>/2))",
-      "Type" : "Number",
-      "Default" : "1"
-    },
     "MasterLogstashConfig" : {
       "Description" : "(optional) Config string for Logstash on the Mesos Masters",
       "Type" : "String",
@@ -215,7 +210,6 @@
           "KeyName" : { "Ref" : "KeyName" },
           "ClusterId" : { "Ref" : "ClusterId" },
           "ClusterSize" : { "Ref" : "MasterInstanceCount" },
-          "QuorumSize" : { "Ref" : "MasterQuorumCount" },
           "DockerCredentials" : { "Ref" : "DockerCredentials" },
           "LogstashConfig" : { "Ref" : "MasterLogstashConfig" },
           "ConfigScriptS3Bucket" : { "Ref" : "MasterConfigScriptS3Bucket" },

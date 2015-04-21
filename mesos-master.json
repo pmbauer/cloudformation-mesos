@@ -36,10 +36,6 @@
       "Description" : "Number of nodes to launch",
       "Type" : "Number"
     },
-    "QuorumSize" : {
-      "Description" : "Number of masters needed for Mesos replicated log registry quorum (should be ceiling(<ClusterSize>/2))",
-      "Type" : "Number"
-    },
     "ExhibitorDiscoveryUrl" : {
       "Description" : "Exhibitor URL that returns active ZooKeeper nodes ('getCluster') (e.g., http://<exhibitor_node>/exhibitor/v1/cluster/list)",
       "Type" : "String"
@@ -223,11 +219,9 @@
                   "#!/bin/bash -e",
                   "echo \"zk://`/usr/local/bin/zk-list-nodes`/{{mesos_cluster_id}}\" > /etc/sv/mesos-master/env/MESOS_ZK",
                   "echo \"`/usr/bin/ec2metadata --public-hostname`\" > /etc/sv/mesos-master/env/MESOS_HOSTNAME",
-                  "echo \"{{mesos_quorum}}\" > /etc/sv/mesos-master/env/MESOS_QUORUM"
                 ]]},
                 "context" : {
-                  "mesos_cluster_id": { "Ref": "ClusterId" },
-                  "mesos_quorum": { "Ref": "QuorumSize" }
+                  "mesos_cluster_id": { "Ref": "ClusterId" }
                 },
                 "mode"    : "000755",
                 "owner"   : "root",
@@ -305,6 +299,7 @@
 
           "# Configure, enable, and start mesos-master\n",
           "configure-mesos-master\n",
+          "echo $(( ", { "Ref" : "ClusterSize" }, "/ 2 + 1 )) > /etc/sv/mesos-master/env/MESOS_QUORUM\n",
           "runit-service enable mesos-master\n",
 
           "# Set up and start Marathon \n",
